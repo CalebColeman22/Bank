@@ -1,9 +1,9 @@
-from Transaction import * 
+from transaction import * 
 
 class BankAccount: 
 
     OVERDRAFT_FEE = 20.00
-    INTEREST_RATE = 7.5
+    INTEREST_RATE = 0.075
     _accountNumber = 1000
 
     def __init__(self, firstName = "", lastName = "", balance = 0):
@@ -67,6 +67,15 @@ class BankAccount:
         self._balance = self._balance + trans.getAmount()
         self._transactions.append(trans)
 
+
+    def interest(self):
+        trans = Transaction(3)
+
+        balance = self._balance
+        self._interestDeposit = BankAccount.INTEREST_RATE * balance
+
+        self._balance = self._balance + self._interestDeposit
+        self._transactions.append(trans)
 
     def setFirstName(self):
     
@@ -147,9 +156,9 @@ class BankAccount:
     # Prints all of the transaction instance variables.
     # @return: The formatted, human readable string of the transaction
     def __str__ (self):
-        transaction = ""
+        transaction = []
         for item in self._transactions:
-            transaction = item 
+            transaction.append(item) 
 
         return ("Account Details - First Name: %s, Last Name: %s, Account Number: %d, Balance: $%.2f, Transactions: %s"\
                  %(self._firstName, self._lastName, self._accountNum, self._balance, transaction))
